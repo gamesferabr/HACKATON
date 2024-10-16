@@ -125,6 +125,46 @@ pip freeze > requirements.txt
 
 2. Isso vai gerar um arquivo \`requirements.txt\` com todas as bibliotecas necessárias para o projeto.
 
+### 7. Criar Superusuário e Usar o Admin do Django
+
+Django inclui uma interface de administração para gerenciar o banco de dados. Para acessá-la, siga os passos abaixo.
+
+1. **Criar um superusuário**:
+
+\`\`\`
+python manage.py createsuperuser
+\`\`\`
+
+Digite as credenciais para o superusuário, como nome de usuário, e-mail e senha.
+
+2. **Registrar modelos no admin**:
+
+No arquivo \`admin.py\` do seu app, registre os modelos para que eles apareçam na interface de administração.
+
+Exemplo:
+
+\`\`\`python
+from django.contrib import admin
+from .models import Evento  # Substitua pelo nome do seu modelo
+
+admin.site.register(Evento)
+\`\`\`
+
+3. **Acessar a interface de administração**:
+
+Inicie o servidor de desenvolvimento:
+
+\`\`\`
+python manage.py runserver
+\`\`\`
+
+Acesse a interface de administração no navegador:
+
+\`http://127.0.0.1:8000/admin/\`
+
+Faça login com o superusuário criado e você poderá gerenciar seus dados no banco de dados a partir da interface de administração.
+
+
 ## Problemas Comuns
 
 ### 1. Erro ao Compilar o \`mysqlclient\`
