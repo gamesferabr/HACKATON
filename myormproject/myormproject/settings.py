@@ -76,10 +76,10 @@ WSGI_APPLICATION = 'myormproject.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',  # Usar o backend MySQL
-        'NAME': 'nome_do_banco',               # Nome do banco de dados
-        'USER': 'usuario_do_mysql',            # Seu usuário do MySQL
-        'PASSWORD': 'senha_do_mysql',          # Sua senha do MySQL
+        'ENGINE': 'mysql.connector.django',  # Usar o MySQL Connector
+        'NAME': 'meuprojeto',               # Nome do banco de dados
+        'USER': 'root',            # Seu usuário do MySQL
+        'PASSWORD': 'root123',          # Sua senha do MySQL
         'HOST': 'localhost',                   # Host, geralmente 'localhost'
         'PORT': '3306',                        # Porta padrão do MySQL
     }
