@@ -1,0 +1,152 @@
+/* Definições globais */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+}
+
+header {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1.5rem;
+    font-size: 1.5rem;
+}
+
+#event-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 2rem;
+}
+
+/* Estilo dos cards de evento */
+.event-card {
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin: 1.5rem;
+    padding: 1.5rem;
+    width: 320px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    text-align: left;
+}
+
+.event-card:hover {
+    transform: scale(1.02);  /* Pequeno efeito de zoom ao passar o mouse */
+}
+
+.event-card img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Títulos e subtítulos */
+h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.75rem;
+    color: #333;
+}
+
+/* Inputs de edição */
+.event-input {
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+}
+
+.event-input[disabled] {
+    background-color: #f9f9f9;
+    color: black;
+    border: none;
+}
+
+/* Limitar a altura da descrição e permitir rolagem */
+.description {
+    max-height: 4em; /* Altura limitada inicialmente */
+    overflow: hidden; /* Esconde o texto que ultrapassa o limite */
+    text-overflow: ellipsis;
+    margin-bottom: 1rem;
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.description-expanded {
+    max-height: 150px; /* Altura fixa para a descrição expandida */
+    overflow-y: scroll; /* Barra de rolagem */
+    padding-right: 10px; /* Espaço para a barra de rolagem */
+}
+
+/* Contêiner para alinhar os botões lado a lado */
+.button-container {
+    display: flex;
+    justify-content: space-between; /* Coloca os botões um ao lado do outro */
+    gap: 10px; /* Espaçamento entre os botões */
+    margin-top: 10px;
+}
+
+/* Botões */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    text-align: center;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.toggle-description, .toggle-prices, .edit-btn {
+    font-size: 1rem;
+}
+
+.toggle-prices {
+    background-color: #007BFF;
+}
+
+.toggle-prices:hover {
+    background-color: #0056b3;
+}
+
+/* Estilo da lista de ingressos */
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 0.5rem;
+    color: #555;
+}
+
+/* Checkbox */
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
