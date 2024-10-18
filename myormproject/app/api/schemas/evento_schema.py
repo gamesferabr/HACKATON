@@ -24,7 +24,6 @@ class CreateEventoSchema(Schema):
     valor: str = Field(..., alias="valor")
     local: str = Field(..., max_length=500)
     descricao: str = Field(..., alias="descricao")
-    link_compra: str = Field(..., alias="link_compra")
     link_validacao: str = Field(..., alias="link_validacao")
     url_imagem: str = Field(..., alias="url_imagem")
     
@@ -38,7 +37,6 @@ class UpdateEventoSchema(Schema):
     valor: Optional[str]
     local: Optional[str] = Field(None, max_length=500)
     descricao: Optional[str]
-    link_compra: Optional[str]
     link_validacao: Optional[str]
     url_imagem: Optional[str]
 

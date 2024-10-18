@@ -31,5 +31,5 @@ def patch_evento(request, evento_id: str, evento: UpdateEventoSchema):
 @router.delete("/eventos/{evento_id}", response={200: str})
 def delete_evento(request, evento_id: str):
     service = EventoService()
-    user_deleted = service.delete(evento_id)
-    return user_deleted
+    service.delete(evento_id)
+    return "Evento deletado com sucesso!"

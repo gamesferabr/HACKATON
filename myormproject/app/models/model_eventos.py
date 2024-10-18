@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class Evento(models.Model):
     id = models.CharField(primary_key=True, 
                           unique=True, 

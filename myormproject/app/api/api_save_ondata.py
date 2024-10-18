@@ -28,3 +28,15 @@ def delete_elastic_events(request):
     resultado = SaveEventoService.delete_elastic_events()
     
     return {"status": resultado}
+
+@router.delete("/eventos/elasticsearch/{evento_id}")
+def delete_elastic_event(request, evento_id: str):
+    resultado = SaveEventoService.delete_one_elastic_event(evento_id)
+    
+    return {"status": resultado}
+
+@router.patch("/eventos/elasticsearch/{evento_id}")
+def update_elastic_event(request, evento_id: str, evento: dict):
+    resultado = SaveEventoService.update_elastic_event(evento_id, evento)
+    
+    return {"status": resultado}

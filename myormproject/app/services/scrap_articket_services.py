@@ -2,9 +2,13 @@ import re
 import requests
 from bs4 import BeautifulSoup
 
+
 class Scrap:
     @staticmethod
     def remove_emojis(text):
+        """
+        Remove emojis de um texto.
+        """
         emoji_pattern = re.compile(
             "["
             u"\U0001F600-\U0001F64F"  
@@ -31,6 +35,9 @@ class Scrap:
 
     @staticmethod
     def validation_ticket_section(tickets_section, tickets):
+        """ 
+        Valida se a seção de tickets existe e extrai os tickets
+        """
         if tickets_section:
             ticket_elements = tickets_section.find_all('tr', class_='ticket')
             for ticket in ticket_elements:
@@ -42,6 +49,9 @@ class Scrap:
 
     @staticmethod
     def extract_ticket_price_and_tax(ticket):
+        """ 
+        Extrai o preço e a taxa de um ticket.
+        """
         ticket_price_element = ticket.find('div', class_='p-3')
         ticket_price = ticket_price_element.get_text(strip=True) if ticket_price_element else "Preço não disponível"
         tax = ticket_price.split('(')[-1]
@@ -68,6 +78,9 @@ class Scrap:
     
     @staticmethod
     def scrape_articket_page(url):
+        """
+        Extrai informações de um evento do site Articket.
+        """
         response = requests.get(url)
 
         if response.status_code == 200:
@@ -95,6 +108,9 @@ class Scrap:
 
     @staticmethod
     def extract_image_src(soup):
+        """ 
+        Extrai a URL da imagem do evento.
+        """
         image_container = soup.find('div', 
                                     class_='flex items-center justify-center w-full h-100 lg:w-1/2')
         if image_container:
@@ -106,6 +122,9 @@ class Scrap:
 
     @staticmethod
     def extract_event_info(soup):
+        """ 
+        Extrai o título, data e local do evento.
+        """
         event_info_container = soup.find('div',
                                          class_='flex flex-col items-center w-full lg:w-1/2')
         title = None
@@ -121,6 +140,9 @@ class Scrap:
 
     @staticmethod
     def extract_tickets(soup):
+        """ 
+        Extrai os tickets disponíveis para o evento.
+        """
         tickets = []
         tickets_section = soup.find('section', 
                                     id='tickets', 
@@ -130,6 +152,9 @@ class Scrap:
 
     @staticmethod
     def extract_event_details(soup):
+        """ 
+        Extrai os detalhes do evento.
+        """
         details_section = soup.find('section', 
                                     class_='container p-3 mx-auto bg-white shadow-lg lg:rounded-lg mb-6')
         event_details = ""
@@ -142,6 +167,9 @@ class Scrap:
 
     @staticmethod
     def get_event_links(search_url):
+        """ 
+        Extrai os links dos eventos da página de busca.
+        """
         response = requests.get(search_url)
         
         if response.status_code == 200:
@@ -162,7 +190,9 @@ class Scrap:
 
     @staticmethod
     def get_all(cidade):
-        
+        """
+        Extrai todos os eventos de uma cidade do site Articket
+        """
         search_url = f"https://articket.com.br/busca?q={cidade}"
         event_links = Scrap.get_event_links(search_url)
         events_data = []
@@ -194,9 +224,5 @@ class Scrap:
                     
                     event['valor'] = f"R${min_price} - R${max_price}"
                     del event['tickets']
-            
-        
-        print(f"Encontrados {len(events_data)} eventos")
-        print(events_data)
         
         return events_data

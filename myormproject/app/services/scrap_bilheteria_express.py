@@ -9,6 +9,9 @@ sys.stdout.reconfigure(encoding='utf-8')
 class ScrapBilhetariaExpress:
     @staticmethod
     def get_image_links(soup):
+        """ 
+        Extrai os links das imagens dos eventos.
+        """
         image_divs = soup.find_all("div", class_="product-image")
         links = []
         
@@ -22,17 +25,15 @@ class ScrapBilhetariaExpress:
 
     @staticmethod
     def extract_links(cidades):
-        print("Extracting links from Bilheteria Express...")
-        print(f"Total cities: {len(cidades)}")
-        print(cidades)
-        
+        """ 
+        Extrai os links dos eventos.
+        """
         all_links = {}
         headers = {
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
         }
 
         for cidade in cidades:
-            print(f"Extracting links for {cidade}...")
             cidade_links = set()  
             page = 1
             has_more_items = True
@@ -60,13 +61,10 @@ class ScrapBilhetariaExpress:
                     cidade_links.update(new_links)
                     
                     if len(cidade_links) == initial_size:
-                        print(f"Page {page}: No new links found. Stopping pagination.")
                         has_more_items = False
                         break
                     
-                    print(f"Page {page}: Found {len(new_links)} new links.")
                 else:
-                    print(f"Failed to retrieve page {page} for {cidade}, status code: {response.status_code}")
                     break
 
                 page += 1
@@ -77,6 +75,9 @@ class ScrapBilhetariaExpress:
 
     @staticmethod
     def extract_event_details(urls, cidade):
+        """ 
+        Extrai os detalhes do evento.
+        """
         event_details = []
         
         for url in urls:
@@ -140,8 +141,8 @@ class ScrapBilhetariaExpress:
             match = re.search(r"(\d{2}/\d{2}).*?(\d{1,2}h\d{2})", date)
             
             if match:
-                date_part = match.group(1)  # "16/11"
-                time_part = match.group(2)  # "20h00"
+                date_part = match.group(1)
+                time_part = match.group(2)
                 
                 time_part = time_part.replace("h", ":")                
                 year = datetime.now().year
@@ -183,7 +184,16 @@ class ScrapBilhetariaExpress:
     
     @staticmethod
     def get_all_bilheteria_express():
-        cidades = ["santos", "sao-vicente-sp", "praia-grande-sp", "guaruja", "bertioga", "mongagua"]
+        """ 
+        Extrai todos os eventos do site Bilheteria Express.
+        """
+        cidades = ["santos", 
+                   "sao-vicente-sp",
+                   "praia-grande-sp", 
+                   "guaruja", 
+                   "bertioga", 
+                   "mongagua"]
+        
         links = ScrapBilhetariaExpress.extract_links(cidades)
         eventos = []
         for cidade, urls in links.items():

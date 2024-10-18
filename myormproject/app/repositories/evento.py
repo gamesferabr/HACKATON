@@ -7,23 +7,37 @@ class EventoRepository():
     
     @staticmethod
     def verify_is_deleted(evento_id: str):
+        """ 
+        Verifica se um evento foi deletado logicamente.
+        """
         if Evento.objects.filter(id=evento_id, is_deleted=True).exists():
             return True
         return False
     
    
     def create(self, evento: CreateEventoSchema):
-        # Converte o schema para um dicionário usando o método adequado do Pydantic ou manualmente
+        """ 
+        Cria um evento no banco de dados.
+        """
         evento_data = evento.dict() if hasattr(evento, 'dict') else dict(evento)
         return Evento.objects.create(**evento_data)
 
     def get_one(self, evento_id: str):
+        """ 
+        Retorna um evento a partir de seu ID.
+        """
         return Evento.objects.get(pk=evento_id)
     
     def get_all(self):
+        """ 
+        Retorna todos os eventos.
+        """
         return Evento.objects.all()
     
     def patch(self, evento_id: str, evento: dict):
+        """ 
+        Atualiza um evento a partir de seu ID.
+        """
         existing_evento = Evento.objects.get(pk=evento_id)
         
         for key, value in evento.items():
@@ -34,6 +48,9 @@ class EventoRepository():
         return existing_evento  
     
     def logic_delete(self, evento_id: str):
+        """ 
+        Deleta logicamente um evento a partir de seu ID.
+        """
         evento = Evento.objects.get(pk=evento_id)
         evento.is_deleted = True
         evento.save()
