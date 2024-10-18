@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 import requests
 import sys
+import re
+from datetime import datetime
 
 sys.stdout.reconfigure(encoding='utf-8')
 
@@ -37,9 +39,13 @@ class ScrapBilhetariaExpress:
             
             while has_more_items:
                 if page == 1:
-                    response = requests.get(f"https://www.bilheteriaexpress.com.br/agendas/{cidade}.html#page=1", headers=headers)
+                    response = requests.get(
+                        f"https://www.bilheteriaexpress.com.br/agendas/{cidade}.html#page=1", 
+                        headers=headers)
                 else:
-                    response = requests.get(f"https://www.bilheteriaexpress.com.br/agendas/{cidade}.html?is_ajax=1&p={page}&is_scroll=1", headers=headers)
+                    response = requests.get(
+                f"https://www.bilheteriaexpress.com.br/agendas/{cidade}.html?is_ajax=1&p={page}&is_scroll=1", 
+                headers=headers)
                 
                 if response.status_code == 200:
                     soup = BeautifulSoup(response.text, "html.parser")
@@ -70,7 +76,7 @@ class ScrapBilhetariaExpress:
         return all_links
 
     @staticmethod
-    def extract_event_details(urls):
+    def extract_event_details(urls, cidade):
         event_details = []
         
         for url in urls:
@@ -106,24 +112,72 @@ class ScrapBilhetariaExpress:
                             br.replace_with(" ") 
                         descricao = p_element.get_text(strip=True)
             
-            info_image = soup.find("div", class_="product-image")
+            info_image = soup.find("p", class_="product-image")
+            
             if info_image:
                 image = info_image.find("img")
                 if image:
-                    url_imagem = image.get("src")
+                    url_imagem = image.get("data-src")
+                
                 else:
                     url_imagem = ""
+            
+            # Tratar os valores
+            prices = re.findall(r'\d+,\d+', valor)
+
+            if len(prices) == 2:
+                min_price = prices[0].replace(',', '.')
+                max_price = prices[1].replace(',', '.')
+                valor_tratado = f"R$ {min_price} - R$ {max_price}"
+                
+            elif len(prices) == 1:
+                min_price = prices[0].replace(',', '.')
+                valor_tratado = f"R$ {min_price}"
             else:
-                url_imagem = ""
+                valor_tratado = "Valor não disponível"
+
+            # Tratar a data
+            match = re.search(r"(\d{2}/\d{2}).*?(\d{1,2}h\d{2})", date)
+            
+            if match:
+                date_part = match.group(1)  # "16/11"
+                time_part = match.group(2)  # "20h00"
+                
+                time_part = time_part.replace("h", ":")                
+                year = datetime.now().year
+                
+                full_date_str = f"{date_part}/{year} {time_part}"
+                
+                date_obj = datetime.strptime(full_date_str, "%d/%m/%Y %H:%M")
+                
+                formatted_date = date_obj.strftime("%d/%m/%Y %H:%M")
+                date = str(formatted_date)
+            
+            nome = soup.find("div" , class_="price-review").find("p").text.strip()
+            
+            cidade = cidade.replace("-", "+")
+            if cidade == "sao+vicente+sp":
+                cidade = "são+vicente"
+            
+            elif cidade == "praia+grande+sp":
+                cidade = "praia+grande"
+            
+            elif cidade == "guaruja":
+                cidade = "guarujá"
+            
+            elif cidade == "mongagua":
+                cidade = "mongaguá"
                 
             event_details.append({
                 "url_imagem": url_imagem,
-                "url": url,
-                "data": date,
+                "link_validacao": url,
+                "data_inicio": date,
+                "data_fim": date,
                 "local": local,
-                "valor": valor,
+                "nome": nome,
+                "valor": valor_tratado,
                 "descricao": descricao,
-            })
+                "area": cidade})
         
         return event_details
     
@@ -133,6 +187,6 @@ class ScrapBilhetariaExpress:
         links = ScrapBilhetariaExpress.extract_links(cidades)
         eventos = []
         for cidade, urls in links.items():
-            eventos.extend(ScrapBilhetariaExpress.extract_event_details(urls))
+            eventos.extend(ScrapBilhetariaExpress.extract_event_details(urls, cidade))
         
         return eventos

@@ -3,6 +3,7 @@ from app.services.evento_services import EventoService
 from app.api.schemas.evento_schema import EventoSchema
 from app.services.utils.elastic import es
 from app.services.scrap_articket_services import Scrap
+from app.services.scrap_bilheteria_express import ScrapBilhetariaExpress
 
 class SaveEventoService:
     @staticmethod
@@ -13,13 +14,12 @@ class SaveEventoService:
     
     @staticmethod
     def salvar_evento():
-        cidade = ["santos",
+        cidade = [  "santos",
                     "são+vicente",
                     "praia+grande",
                     "guarujá",
                     "bertioga",
                     "mongaguá"]
-        
         
         dados = []
         
@@ -27,6 +27,11 @@ class SaveEventoService:
             eventos = Scrap.get_all(cidade[i])
             if len(eventos) > 0:
                 dados.extend(eventos)
+        
+        eventos = ScrapBilhetariaExpress.get_all_bilheteria_express()
+        if len(eventos) > 0:
+            dados.extend(eventos)
+                
         
         len_dados = len(dados)
         
@@ -121,3 +126,13 @@ class SaveEventoService:
         response = es.count(index="eventos")
         return response['count']
     
+    @staticmethod
+    def delete_elastic_events():
+        query = {
+            "query": {
+                "match_all": {}
+            }
+        }
+        
+        response = es.delete_by_query(index="eventos", body=query)
+        return response['deleted']

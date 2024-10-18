@@ -32,4 +32,10 @@ class EventoRepository():
         existing_evento.save()
         
         return existing_evento  
+    
+    def logic_delete(self, evento_id: str):
+        evento = Evento.objects.get(pk=evento_id)
+        evento.is_deleted = True
+        evento.save()
         
+        return evento

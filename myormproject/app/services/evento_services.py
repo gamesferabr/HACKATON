@@ -23,5 +23,5 @@ class EventoService():
     def delete(self, id):
         if self.evento_repository.verify_is_deleted(id):
             return None
-        return self.evento_repository.delete(id)
+        return self.evento_repository.logic_delete(id)
     

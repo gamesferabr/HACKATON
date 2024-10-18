@@ -22,3 +22,9 @@ def get_elastic_events(request, page: int = 1, size: int = 10):
         return {"total_documentos": count_documentos, "eventos": eventos}
     
     return eventos
+
+@router.delete("/eventos/elasticsearch")
+def delete_elastic_events(request):
+    resultado = SaveEventoService.delete_elastic_events()
+    
+    return {"status": resultado}

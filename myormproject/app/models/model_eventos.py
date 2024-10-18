@@ -12,8 +12,7 @@ class Evento(models.Model):
     valor = models.CharField(max_length=500)
     local = models.CharField(max_length=500)
     descricao = models.TextField()
-    link_compra = models.URLField(default="")
-    link_validacao = models.URLField(default="")
-    url_imagem = models.URLField(default="")
+    link_validacao = models.TextField()
+    url_imagem = models.TextField()
 
     is_deleted = models.BooleanField(default=False)
