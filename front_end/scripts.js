@@ -3,7 +3,7 @@ window.onload = function() {
     const pageSize = 10;
 
     function loadEvents(page = 1) {
-        fetch(`http://127.0.0.1:8000/api/scrap/eventos/elasticsearch?page=${page}&size=${pageSize}`)
+        fetch(`http://127.0.0.1:8000/api/save/eventos/elasticsearch?page=${page}&size=${pageSize}`)
             .then(response => response.json())
             .then(data => {
                 const eventList = document.getElementById('event-list');
