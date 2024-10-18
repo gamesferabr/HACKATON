@@ -93,21 +93,35 @@ class SaveEventoService:
             return f"Erro ao salvar evento no MySQL: {e}"
 
     @staticmethod
-    def get_elastic_events(page=1, size=10):
+    def get_elastic_events(page=1, size=10, area=None):
         """
         Recupera eventos ordenados pelo campo 'contador' 
         para garantir que os mais recentes sejam listados primeiro.
         """
-        query = {
-            "query": {
-                "match_all": {}
-            },
-            "sort": [
-                {"contador": {"order": "desc"}}
-            ],
-            "from": (page - 1) * size,
-            "size": size
-        }
+        if area:
+            query = {
+                "query": {
+                    "match": {
+                        "area": area
+                    }
+                },
+                "sort": [
+                    {"contador": {"order": "desc"}}
+                ],
+                "from": (page - 1) * size,
+                "size": size
+            }
+        else:
+            query = {
+                "query": {
+                    "match_all": {}
+                },
+                "sort": [
+                    {"contador": {"order": "desc"}}
+                ],
+                "from": (page - 1) * size,
+                "size": size
+            }
         
         response = es.search(index="eventos", body=query)
         return response['hits']['hits']

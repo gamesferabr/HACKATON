@@ -8,18 +8,27 @@
 </head>
 <body>
     <header>
-        <h1>Selecione os Eventos para sua Empresa</h1>
+        <h1>Seleção de eventos</h1>
     </header>
     
+    <!-- Seção para filtro por cidade -->
+    <section id="city-filter">
+        <label for="city-select">Selecione a Cidade:</label>
+        <select id="city-select">
+            <option value="">Todas as Cidades</option>
+            <!-- As opções serão adicionadas dinamicamente pelo JavaScript -->
+        </select>
+    </section>
+
     <section id="event-list">
         <!-- A lista de eventos será inserida aqui pelo JS -->
     </section>
 
     <footer>
-        <div id="pagination" class="paginatio"></div>
+        <div id="pagination" class="pagination"></div>
         <button id="submit-selection">Enviar Seleção</button>
     </footer>
 
     <script src="scripts.js"></script>
 </body>
-</html>
+</html

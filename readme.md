@@ -164,6 +164,66 @@ Acesse a interface de administração no navegador:
 
 Faça login com o superusuário criado e você poderá gerenciar seus dados no banco de dados a partir da interface de administração.
 
+### 8. Instalar o Elasticsearch
+
+Para instalar o Elasticsearch em sua máquina, siga os passos abaixo:
+
+1. **Baixar o Elasticsearch**:
+   - Acesse a página oficial de downloads do Elasticsearch: [https://www.elastic.co/downloads/elasticsearch](https://www.elastic.co/downloads/elasticsearch).
+   - Escolha a versão adequada para o seu sistema operacional (Windows, macOS, ou Linux).
+
+2. **Instalar no Windows**:
+   - Extraia o conteúdo do arquivo baixado.
+   - Navegue até o diretório extraído e execute o seguinte comando no PowerShell:
+     \`\`\`bash
+     .\\bin\\elasticsearch.bat
+     \`\`\`
+   - Certifique-se de que o Java esteja instalado corretamente no sistema, pois ele é necessário para rodar o Elasticsearch.
+
+3. **Instalar no macOS usando Homebrew**:
+   - Caso você utilize o Homebrew, pode instalar o Elasticsearch facilmente com:
+     \`\`\`bash
+     brew tap elastic/tap
+     brew install elasticsearch
+     \`\`\`
+   - Depois, inicie o serviço com:
+     \`\`\`bash
+     elasticsearch
+     \`\`\`
+
+4. **Instalar no Linux**:
+   - Para distribuições baseadas em Debian/Ubuntu:
+     \`\`\`bash
+     wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-8.x.x-amd64.deb
+     sudo dpkg -i elasticsearch-8.x.x-amd64.deb
+     sudo systemctl enable elasticsearch
+     sudo systemctl start elasticsearch
+     \`\`\`
+   - Certifique-se de substituir \`8.x.x\` pela versão específica que você baixou.
+
+5. **Verificar a Instalação**:
+   - Após iniciar o Elasticsearch, verifique se ele está funcionando corretamente acessando no seu navegador:
+     \`\`\`
+     http://localhost:9200
+     \`\`\`
+   - Você deverá ver uma resposta JSON indicando que o Elasticsearch está ativo.
+
+6. **Configurações Adicionais**:
+   - Configure o arquivo \`elasticsearch.yml\` para ajustar parâmetros como host, portas e permissões de acesso.
+   - Este arquivo está localizado dentro da pasta \`config\` no diretório do Elasticsearch.
+
+7. **Integrar com o Django**:
+   - Para usar o Elasticsearch com o Django, você pode instalar a biblioteca \`django-elasticsearch-dsl\`:
+     \`\`\`
+     pip install django-elasticsearch-dsl
+     \`\`\`
+   - Consulte a documentação oficial para mais detalhes sobre a integração: [https://django-elasticsearch-dsl.readthedocs.io/en/latest/](https://django-elasticsearch-dsl.readthedocs.io/en/latest/)
+  
+   - Para lidar com a conexão do Django com o Elasticsearch, você pode usar o arquivo \`elastic.py\` para definir os índices de pesquisa e mapear os modelos do Django para o Elasticsearch. E 
+   Para se conectar também ! Só ter certeza de sua porta local que por padrão é 9200. Além disso
+   a pasta está localizada em /app/services/utils/elastic.py
+
+Agora, o Elasticsearch deve estar rodando na sua máquina, pronto para ser usado com seu projeto Django!
 
 ## Problemas Comuns
 
@@ -177,18 +237,3 @@ Se você estiver usando \`mysqlclient\` e receber um erro pedindo o **Microsoft 
 ### 2. Conexão MySQL Não Funciona
 
 Verifique se o MySQL está rodando corretamente e que o usuário e senha no arquivo \`settings.py\` estão corretos. Além disso, certifique-se de que o banco de dados foi criado e que o usuário tem permissões adequadas.
-
-## Estrutura do Projeto
-
-\`\`\`
-myormproject/
-│
-├── myenv/                # Ambiente virtual do projeto
-├── myapp/                # Aplicativo Django com os modelos
-│   ├── migrations/       # Migrações do banco de dados
-│   ├── models.py         # Definição dos modelos (tabelas)
-│   └── ...
-├── manage.py             # Script de gerenciamento do Django
-├── requirements.txt      # Arquivo com as dependências do projeto
-└── README.md             # Instruções e detalhes do projeto
-\`\`\`

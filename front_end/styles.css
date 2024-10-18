@@ -1,45 +1,51 @@
+/* Estilo geral da página */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
     margin: 0;
     padding: 0;
     color: #333;
 }
 
+/* Cabeçalho */
 header {
-    background-color: #333;
+    background-color: #4d4d4d;
     color: white;
     text-align: center;
-    padding: 1.5rem;
-    font-size: 1.5rem;
+    padding: 1rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-transform: uppercase;
 }
 
+/* Lista de eventos */
 #event-list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    padding: 2rem;
+    padding: 3rem;
+    gap: 1.5rem;
 }
 
+/* Cartão de evento */
 .event-card {
     background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    margin: 1.5rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 15px;
     padding: 1.5rem;
-    width: 320px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease;
+    width: 340px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     text-align: left;
 }
 
 .event-card:hover {
-    transform: scale(1.02);
+    transform: scale(1.05);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .event-card img {
     max-width: 100%;
-    border-radius: 8px;
+    border-radius: 12px;
     margin-bottom: 1rem;
 }
 
@@ -49,21 +55,24 @@ h2 {
     color: #333;
 }
 
+/* Campos de entrada */
 .event-input {
     width: 100%;
-    border: 1px solid #ddd;
-    padding: 0.5rem;
-    border-radius: 5px;
-    margin-bottom: 1rem;
+    border: 1px solid #e0e0e0;
+    padding: 0.7rem;
+    border-radius: 8px;
+    margin-bottom: 1.2rem;
     font-size: 1rem;
+    background-color: #f8f8f8;
+    color: black;
 }
 
 .event-input[disabled] {
-    background-color: #f9f9f9;
-    color: black;
-    border: none;
+    background-color: #f8f8f8;
+    border-color: #ddd;
 }
 
+/* Descrição curta */
 .description {
     max-height: 4em;
     overflow: hidden; 
@@ -75,75 +84,144 @@ h2 {
 
 .description-expanded {
     max-height: 150px; 
-    overflow-y: scroll; 
-    padding-right: 10px; 
+    overflow-y: auto; 
+    padding-right: 10px;
 }
 
+/* Container dos botões */
 .button-container {
     display: flex;
-    justify-content: space-between;
-    gap: 10px; 
+    justify-content: flex-end;
+    gap: 10px;
     margin-top: 10px;
 }
 
 button {
-    background-color: #4CAF50;
+    background-color: #28a745;
     color: white;
-    padding: 8px 16px;
+    padding: 10px 20px;
     border: none;
-    border-radius: 5px;
+    border-radius: 6px;
     cursor: pointer;
     font-size: 1rem;
     text-align: center;
+    transition: background-color 0.2s ease;
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #218838;
 }
 
-.toggle-description, .toggle-prices, .edit-btn {
+/* Botões de edição e alternar descrição */
+.toggle-description, .edit-btn {
     font-size: 1rem;
+    padding: 0.5rem 1rem;
 }
 
-.toggle-prices {
-    background-color: #007BFF;
-}
-
-.toggle-prices:hover {
-    background-color: #0056b3;
-}
-
-ul {
-    padding-left: 20px;
-}
-
-li {
-    margin-bottom: 0.5rem;
-    color: #555;
-}
-
+/* Checkbox */
 label {
     display: block;
     margin-top: 10px;
+    font-size: 0.9rem;
+    color: #555;
 }
 
 input[type="checkbox"] {
     margin-right: 10px;
 }
 
-footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #333;
-    color: white;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
+/* Preço do ingresso */
+.ticket-price {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: bold;
 }
 
-.paginatio{
+.ticket-price:hover {
+    text-decoration: underline;
+    color: #007BFF;
+}
+
+/* Rodapé */
+footer {
+    text-align: center;
+    padding: 1.5rem;
+    background-color: #4d4d4d;
+    color: white;
+    position: relative;
+    margin-top: 2rem;
+}
+
+/* Estilo da paginação */
+.paginatio {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-bottom: 10px;
+    margin: 20px 0;
+    
+}
+
+.page-button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e9ecef;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin: 5px;
+}
+
+.page-button.active {
+    background-color: #ff1e00;
+    color: white;
+    font-weight: bold;
+
+}
+
+.page-button:hover {
+    background-color: #520000;
+    color: white;
+}
+
+/* Filtro de cidade */
+#city-filter {
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+#city-filter label {
+    margin-right: 10px;
+    font-weight: bold;
+    color: #333;
+    font-size: 1.1rem;
+}
+
+#city-select {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1.1rem;
+    background-color: #f8f8f8;
+    color: #333;
+}
+
+#city-select:focus {
+    border-color: #3d7fc5;
+    outline: none;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    #event-list {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .event-card {
+        width: 90%;
+    }
 }
