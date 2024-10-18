@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 from app.services.utils.elastic import es
 import hashlib
 from app.services.evento_services import EventoService
-from app.models.model_eventos import Evento
+from app.api.schemas.evento_schema import EventoSchema
 
 class Scrap:
     @staticmethod
@@ -238,20 +238,25 @@ class Scrap:
                 contador = 0
 
             for dado in dados:
-                unique_id = Scrap.generate_unique_id(dado)
-                
-                if es.exists(index='eventos', id=unique_id):
-                    print(f"Documento com ID {unique_id} já existe. Pulando...")
-                    continue
-                
-                else:
+                if isinstance(dado, dict):
+                    unique_id = Scrap.generate_unique_id(dado)
+                    
+                    # Verificar se o documento já existe no índice
+                    if es.exists(index='eventos', id=unique_id):
+                        print(f"Documento com ID {unique_id} já existe. Pulando...")
+                        continue
+                    
                     contador += 1
                     dado['contador'] = contador
                     print(f"Indexando documento {contador}...")
-
+                    dado['id'] = unique_id
+                    
+                    # Indexa o documento usando o ID gerado e o contador atualizado
                     es.index(index='eventos', id=unique_id, body=dado)
+                    print(dado)
+                    
                     Scrap.salvar_evento_mysql(dado)
-        
+                    
         except Exception as e:
             print(f"Erro ao indexar documentos: {e}")
             return f"Erro ao indexar documentos: {e}"
@@ -261,21 +266,35 @@ class Scrap:
     @staticmethod
     def salvar_evento_mysql(dado):
         try:
-            # Supondo que `EventoModel` seja seu modelo Pydantic
-            # Tirar o area e o contador
-            dado.pop('area')
-            dado.pop('contador')
+            print("Salvando evento no MySQL...")
             
-            evento_model = Evento(**dado)
+            # Criar a instância do modelo Evento com os dados
+            evento_model = EventoSchema(
+                id=dado.get('id', ''),
+                link_validacao=dado.get('link_validacao', ''),
+                url_imagem=dado.get('url_imagem', ''),
+                nome=dado.get('nome', ''),
+                data_inicio=dado.get('data_inicio', ''),
+                data_fim=dado.get('data_fim', ''),
+                local=dado.get('local', ''),
+                descricao=dado.get('descricao', ''),
+                valor=dado.get('valor', 'R$0.0 - R$0.0')  # Valor padrão caso esteja ausente
+            )
+            
+            print(evento_model)
+            
+            # Utilizar o serviço para salvar o evento no banco de dados
             service = EventoService()
             service.create(evento_model)
-    
+
+            print("Evento salvo com sucesso")
+            
+            return "Evento salvo com sucesso"
+        
         except Exception as e:
             print(f"Erro ao salvar evento no MySQL: {e}")
             return f"Erro ao salvar evento no MySQL: {e}"
-    
-        return "Evento salvo com sucesso"
-        
+
     @staticmethod
     def get_elastic_events(page=1, size=10):
         """

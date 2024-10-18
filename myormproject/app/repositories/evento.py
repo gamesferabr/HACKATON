@@ -11,8 +11,11 @@ class EventoRepository():
             return True
         return False
     
+   
     def create(self, evento: CreateEventoSchema):
-        return Evento.objects.create(**evento.model_dump())
+        # Converte o schema para um dicionário usando o método adequado do Pydantic ou manualmente
+        evento_data = evento.dict() if hasattr(evento, 'dict') else dict(evento)
+        return Evento.objects.create(**evento_data)
 
     def get_one(self, evento_id: str):
         return Evento.objects.get(pk=evento_id)

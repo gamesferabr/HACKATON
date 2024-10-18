@@ -17,12 +17,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myormproject.settings')
 
 application = get_wsgi_application()
 
-def start_scheduler():
-    scheduler = BackgroundScheduler()
+# def start_scheduler():
+#     scheduler = BackgroundScheduler()
     
-    scheduler.add_job(Scrap.salvar_evento, 'interval', minutes=1)
-    # scheduler.add_job(Scrap.salvar_evento_mysql, 'interval', minutes=1)
+#     scheduler.add_job(Scrap.salvar_evento, 'interval', minutes=1)
+#     # scheduler.add_job(Scrap.salvar_evento_mysql, 'interval', minutes=1)
     
-    scheduler.start()
+#     scheduler.start()
 
-start_scheduler()
+# start_scheduler()

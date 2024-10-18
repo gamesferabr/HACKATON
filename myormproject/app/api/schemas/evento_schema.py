@@ -10,7 +10,6 @@ class EventoSchema(Schema):
     valor: str
     local: str
     descricao: str
-    link_compra: str
     link_validacao: str
     url_imagem: str
     
