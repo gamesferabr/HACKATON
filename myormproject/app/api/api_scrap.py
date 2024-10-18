@@ -1,4 +1,5 @@
 from app.services.scrap_articket_services import Scrap
+from app.services.scrap_bilheteria_express import ScrapBilhetariaExpress
 from ninja import Router
 
 router = Router()
@@ -14,3 +15,9 @@ def get_scrap_events(request):
        
     
     return {"eventos": eventos_lista}
+
+@router.get("/scrap/bilheteriaexpress")
+def get_scrap_bilheteriaexpress_events(request):
+    eventos = ScrapBilhetariaExpress.get_all_bilheteria_express()
+       
+    return {"eventos": eventos}

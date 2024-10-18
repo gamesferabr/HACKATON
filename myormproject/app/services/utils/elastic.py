@@ -26,14 +26,14 @@ else:
     print("Falha ao conectar ao Elasticsearch.")
     
 # Definir a query que corresponde a todos os documentos
-query = {
-    "query": {
-        "match_all": {}
-    }
-}
+# query = {
+#     "query": {
+#         "match_all": {}
+#     }
+# }
 
-# Deletar todos os documentos
-response = es.delete_by_query(index="eventos", body=query)
+# # Deletar todos os documentos
+# response = es.delete_by_query(index="eventos", body=query)
 
-# Exibir resposta da operação
-print(f"Documentos deletados: {response['deleted']}")
+# # Exibir resposta da operação
+# print(f"Documentos deletados: {response['deleted']}")
