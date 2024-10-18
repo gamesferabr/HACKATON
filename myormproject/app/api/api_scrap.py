@@ -14,23 +14,3 @@ def get_scrap_events(request):
        
     
     return {"eventos": eventos_lista}
-
-@router.post("/eventos")
-def salvar_eventos(request):
-    resultados = []
-    
-    resultado = Scrap.salvar_evento()
-    resultados.append(resultado)
-    
-    return {"status": "processamento concluído", "resultados": resultados}
-
-@router.get("/eventos/elasticsearch")
-def get_elastic_events(request, page: int = 1, size: int = 10):
-    eventos = Scrap.get_elastic_events(page, size) 
-    eventos = [evento['_source'] for evento in eventos]
-    
-    count_documentos = Scrap.count_elastic_documents()
-    if count_documentos:
-        return {"total_documentos": count_documentos, "eventos": eventos}
-    
-    return eventos
