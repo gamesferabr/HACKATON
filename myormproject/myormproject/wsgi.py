@@ -21,7 +21,6 @@ def start_scheduler():
     scheduler = BackgroundScheduler()
     
     scheduler.add_job(SaveEventoService.salvar_evento, 'interval', minutes=60)
-    # scheduler.add_job(Scrap.salvar_evento_mysql, 'interval', minutes=1)
     
     scheduler.start()
 
