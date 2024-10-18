@@ -1,4 +1,4 @@
-from app.services.scrap import Scrap
+from app.services.scrap_articket_services import Scrap
 from ninja import Router
 
 router = Router()

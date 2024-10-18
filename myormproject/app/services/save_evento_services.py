@@ -2,7 +2,7 @@ import hashlib
 from app.services.evento_services import EventoService
 from app.api.schemas.evento_schema import EventoSchema
 from app.services.utils.elastic import es
-from app.services.scrap import Scrap
+from app.services.scrap_articket_services import Scrap
 
 class SaveEventoService:
     @staticmethod
